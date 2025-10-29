@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple P12 - Nền Tảng Kỹ Thuật Số Cao Cấp</title>
+    <meta name="description" content="Apple P12 cung cấp các giải pháp chữ ký số, chứng thư bảo mật ESign và Cert cao cấp. Tải xuống các phiên bản mới nhất và nhận hỗ trợ 24/7.">
+    
+    <!-- Thêm Favicon (Biểu tượng tab) -->
+    <link rel="icon" type="image/png" href="https://i.imgur.com/IFp0Klx.png">
+    <link rel="apple-touch-icon" href="https://i.imgur.com/IFp0Klx.png">
+    
+    <!-- Tải Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tải CSS Tùy chỉnh -->
+    <!-- <link rel="stylesheet" href="style.css">  Removed link as styles are now inline -->
+    <style>
+        /* Thiết lập font chữ Inter làm mặc định cho sự thanh lịch */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+        /* Định nghĩa màu sắc cao cấp */
+        :root {
+            --lux-gold: #C8AA74; /* Richer, more pronounced Gold/Bronze */
+            --lux-dark: #050505; /* Near-absolute black for contrast */
+            --lux-mid: #121212; /* Darker mid tone */
+            --lux-bg-icon: #000000; /* Nền đen cho icon */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--lux-dark);
+            /* Thêm gradient radial nhẹ để tạo chiều sâu tinh tế */
+            background-image: radial-gradient(at 0% 0%, #1a1a1a 0%, var(--lux-dark) 80%);
+            transition: background-color 0.5s ease;
+        }
+
+        /* --- Hiệu ứng Fade-in --- */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Style cho nút chính (Vàng đồng sang trọng) --- */
+        .lux-button {
+            background-color: var(--lux-gold); /* Vàng đồng */
+            color: var(--lux-dark);
+            font-weight: 700;
+            /* Áp dụng bóng vàng đồng mạnh mẽ */
+            box-shadow: 0 4px 25px rgba(200, 170, 116, 0.6);
+            transition: all 0.4s ease;
+        }
+        .lux-button:hover {
+            background-color: #D4B987; /* Sáng hơn một chút */
+            color: #000;
+            /* Thêm glow nhẹ bên trong */
+            box-shadow: 0 8px 30px rgba(200, 170, 116, 0.8), 0 0 15px var(--lux-gold) inset;
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        /* --- CSS cho thẻ (Card) --- */
+        .lux-card {
+            background-color: var(--lux-mid);
+            transition: all 0.5s ease;
+            position: relative;
+            border: 1px solid var(--lux-mid);
+            display: flex; 
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .lux-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            /* Bóng đổ sâu hơn và viền vàng rõ nét */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), 0 0 10px var(--lux-gold);
+            border-color: var(--lux-gold);
+        }
+
+        /* Thanh phân cách kim loại */
+        .hero-separator::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, #C8AA74, #F2E3C6, #C8AA74); /* Dùng màu vàng mới */
+            margin: 1.5rem auto 0;
+            border-radius: 9999px;
+        }
+
+        /* Style cho nút filter */
+        .filter-button.active {
+            background-color: var(--lux-gold);
+            color: var(--lux-dark) !important; /* Ensure text color changes */
+            box-shadow: 0 0 10px rgba(200, 170, 116, 0.5);
+        }
+
+        /* Fix: ensure filter button text color changes correctly */
+        .filter-button.active span {
+            color: var(--lux-dark) !important;
+        }
+        .filter-button.active svg {
+             color: var(--lux-dark) !important; /* Change SVG color too */
+        }
+
+
+        /* --- CSS CHO ICON ỨNG DỤNG (BÓNG VÀNG ĐỒNG) --- */
+        .lux-app-icon {
+            width: 56px; 
+            height: 56px;
+            background-color: var(--lux-bg-icon); 
+            border-radius: 12px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(200, 170, 116, 0.6), 
+                        0 3px 15px rgba(200, 170, 116, 0.4); /* Tăng cường bóng */
+            transition: box-shadow 0.3s ease; 
+            flex-shrink: 0; 
+        }
+        .lux-app-icon:hover {
+            box-shadow: 0 0 20px rgba(200, 170, 116, 0.9), 
+                        0 6px 30px rgba(200, 170, 116, 0.6);
+        }
+
+        /* Điều chỉnh kích thước icon trên mobile */
+        @media (max-width: 640px) {
+            .lux-app-icon {
+                width: 48px;
+                height: 48px;
+            }
+        }
+
+        /* =================================== */
+        /* CSS CHO ĐÈN HIỆU ỨNG TRẠNG THÁI XANH */
+        /* =================================== */
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #22c55e; /* Green-500 */
+            border-radius: 50%;
+            position: relative;
+            /* Hiệu ứng nhấp nháy/pulse */
+            box-shadow: 0 0 0 rgba(34, 197, 94, 0.6);
+            animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+            margin-right: 4px; /* Space between dot and text */
+        }
+
+        @keyframes ping {
+            0% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6);
+            }
+            100% {
+                box-shadow: 0 0 0 6px rgba(34, 197, 94, 0);
+            }
+        }
+        /* =================================== */
+
+        /* =================================== */
+        /* --- Dynamic Island Style MỚI --- */
+        /* =================================== */
+        .dynamic-island-container {
+            /* Ensures proper spacing and centering */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .dynamic-island {
+            /* Base pill shape */
+            background-color: #000; /* Pure black, darker than lux-dark */
+            border-radius: 9999px; /* Full pill shape */
+            padding: 0.5rem 1.5rem;
+            
+            /* Initial state size */
+            width: 250px; 
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            /* Glass/Glossy effect & Shadow for luxury look */
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.9), 0 0 1px rgba(255, 255, 255, 0.1); 
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px); 
+            
+            /* Transitions for the "Dynamic" feel */
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            border: 1px solid rgba(200, 170, 116, 0.3); /* Subtle gold border */
+        }
+
+        /* Interaction state: Expand slightly on hover */
+        .dynamic-island:hover {
+            width: 320px; /* Expand slightly more */
+            border-color: var(--lux-gold);
+            box-shadow: 0 6px 40px rgba(0, 0, 0, 1), 0 0 15px var(--lux-gold);
+        }
+
+        .island-content {
+            display: flex;
+            align-items: center;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+            white-space: nowrap; /* Prevents text wrap */
+        }
+        /* =================================== */
+
+        /* =================================== */
+        /* CSS CHO NÚT HOTLINE NỔI (FLOATING BUTTON) */
+        /* =================================== */
+        .floating-hotline {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 40; 
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--lux-gold);
+            color: var(--lux-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6), 0 0 15px rgba(200, 170, 116, 0.8);
+            animation: pulse 2s infinite; /* Thêm hiệu ứng nhấp nháy nhẹ */
+            transition: all 0.3s ease;
+        }
+
+        .floating-hotline svg { /* Target SVG inside */
+             width: 24px;
+             height: 24px;
+        }
+
+
+        .floating-hotline:hover {
+            background-color: #D4B987;
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.8), 0 0 20px #F2E3C6;
+            animation: none;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(200, 170, 116, 0.6); }
+            70% { box-shadow: 0 0 0 10px rgba(200, 170, 116, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(200, 170, 116, 0); }
+        }
+
+        @media (min-width: 768px) {
+            .floating-hotline {
+                display: none;
+            }
+        }
+
+        /* =================================== */
+        /* CSS CHO MODAL POLICY */
+        /* =================================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85); /* Slightly darker overlay */
+            z-index: 50; 
+            display: none; /* Hidden by default - Use JS to show */
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+             backdrop-filter: blur(5px);
+             -webkit-backdrop-filter: blur(5px); 
+        }
+
+        .modal-overlay.open { /* Class added by JS to show */
+            display: flex;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: var(--lux-mid);
+            max-width: 90%;
+            max-height: 90%;
+            width: 800px;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), 0 0 15px var(--lux-gold); /* Thêm viền glow */
+            transform: scale(0.95); /* Start slightly smaller */
+            transition: transform 0.3s ease;
+            position: relative;
+            border: 1px solid rgba(200, 170, 116, 0.2); /* Subtle border */
+        }
+
+        .modal-overlay.open .modal-content {
+            transform: scale(1); /* Scale to full size when open */
+        }
+        
+        /* Modal tab content styling */
+        .tab-content {
+             transition: opacity 0.3s ease;
+        }
+        .tab-content.hidden {
+             display: none; /* Use display none for hidden tabs */
+        }
+
+        /* =================================== */
+        /* CSS CHO HẠT BỤI VÀNG (Dust Particles) */
+        /* =================================== */
+        .dust-particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden; /* Ngăn chặn cuộn do particles */
+        }
+
+        .dust-particle {
+            position: absolute;
+            width: 3px; /* Smaller */
+            height: 3px;
+            background-color: var(--lux-gold);
+            border-radius: 50%;
+            opacity: 0.4; /* More subtle */
+            box-shadow: 0 0 4px var(--lux-gold); /* Subtle glow on particle */
+            animation: float 20s infinite ease-in-out; /* Slower and smoother */
+        }
+
+        .dust-particle:nth-child(1) { animation-delay: 0s; transform: scale(1); }
+        .dust-particle:nth-child(2) { animation-delay: 4s; transform: scale(1.2); }
+        .dust-particle:nth-child(3) { animation-delay: 8s; transform: scale(0.8); }
+        .dust-particle:nth-child(4) { animation-delay: 12s; transform: scale(1.1); }
+        .dust-particle:nth-child(5) { animation-delay: 16s; transform: scale(0.9); }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0) scale(1); }
+            25% { transform: translateY(-30px) translateX(15px) scale(1.05); }
+            50% { transform: translateY(30px) translateX(-15px) scale(0.95); }
+            75% { transform: translateY(15px) translateX(30px) scale(1.02); }
+        }
+        
+        /* =================================== */
+        /* CSS CHO MODAL THÔNG TIN APP */
+        /* =================================== */
+        .app-info-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            z-index: 60; /* Higher than policy modal */
+            backdrop-filter: blur(5px);
+            opacity: 0; /* For fade-in */
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .app-info-modal-overlay.open { /* Use .open class */
+             display: flex;
+             opacity: 1;
+             visibility: visible;
+        }
+
+        .app-info-modal-content {
+            background-color: #1c1c1e; /* Darker background like App Store modal */
+            padding: 20px;
+            border-radius: 14px; /* Slightly less rounded */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 360px; /* Slightly narrower */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative; 
+            transform: scale(0.95); /* Start slightly smaller */
+            transition: transform 0.3s ease;
+        }
+        .app-info-modal-overlay.open .app-info-modal-content {
+             transform: scale(1); /* Scale to full size */
+        }
+
+
+        .app-info-modal-content .close-button {
+            position: absolute;
+            top: 8px; /* Closer to edge */
+            right: 8px;
+            background-color: rgba(90, 90, 90, 0.7); /* Slightly darker gray */
+            border-radius: 50%;
+            width: 24px; /* Smaller */
+            height: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+         .app-info-modal-content .close-button:hover {
+             background-color: rgba(110, 110, 110, 0.8);
+         }
+         .app-info-modal-content .close-button svg {
+              width: 12px;
+              height: 12px;
+              stroke: #e5e5e5; /* Lighter stroke for visibility */
+         }
+
+
+        .app-info-modal-content .app-icon-large {
+            width: 64px; /* Smaller icon */
+            height: 64px;
+            border-radius: 16px; /* Adjusted radius */
+            object-fit: contain;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            background-color: #3a3a3c; /* Placeholder background */
+            flex-shrink: 0; /* Prevent shrinking */
+        }
+        .app-info-modal-content .download-button {
+            background-color: #007aff; /* iOS blue */
+            color: white;
+            font-weight: 600; /* Semibold */
+            padding: 4px 16px; /* Smaller padding */
+            border-radius: 9999px; /* Pill shape */
+            text-transform: uppercase;
+            font-size: 13px; /* Smaller font */
+            transition: background-color 0.2s;
+            text-decoration: none;
+            display: inline-block; 
+            line-height: normal; 
+        }
+        .app-info-modal-content .download-button:hover {
+            background-color: #005ecb;
+        }
+        .app-info-modal-content .share-button {
+             background: none; /* Transparent background */
+             border: none;
+             padding: 0;
+             border-radius: 50%;
+             width: 28px; /* Smaller */
+             height: 28px;
+             display: flex;
+             justify-content: center;
+             align-items: center;
+             cursor: pointer;
+              transition: background-color 0.2s;
+        }
+         .app-info-modal-content .share-button svg {
+             width: 18px; /* Adjust icon size */
+             height: 18px;
+             color: #007aff; /* iOS blue */
+         }
+        .app-info-modal-content .share-button:hover {
+             background-color: rgba(90, 90, 90, 0.5); /* Subtle hover */
+        }
+        
+        /* New section for ratings/info */
+        .app-info-details {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #8e8e93; /* iOS secondary text color */
+            font-size: 11px; /* Smaller font */
+        }
+        .app-info-details > div {
+             padding: 0 8px; /* Add padding between items */
+             position: relative;
+        }
+        /* Add dividers */
+        .app-info-details > div:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: -8px; /* Adjust position */
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 60%; /* Adjust height */
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .app-info-details .detail-value {
+            font-size: 16px; /* Larger font for values */
+            font-weight: 600;
+            color: #f2f2f7; /* iOS primary light text */
+            display: block; /* Make it block */
+            margin-bottom: 2px; /* Space between value and label */
+        }
+        .app-info-details .detail-label {
+             text-transform: uppercase;
+             letter-spacing: 0.5px;
+        }
+         .app-info-details .stars {
+             color: #ff9500; /* iOS star color */
+             font-size: 10px; /* Small stars */
+             margin-top: 2px;
+         }
+          .app-info-details .developer-icon {
+              width: 18px;
+              height: 18px;
+              background-color: #555;
+              border-radius: 4px;
+              margin: 0 auto 2px; /* Center and add space */
+              display: flex;
+              align-items: center;
+              justify-content: center;
+          }
+           .app-info-details .developer-icon svg {
+                width: 12px;
+                height: 12px;
+                color: #ccc;
+           }
+
+
+    </style>
+</head>
+<body class="text-gray-100 min-h-screen">
+
+    <!-- SVG Biểu tượng (Tối ưu hóa) -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="icon-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4"/>
+        </symbol>
+        <symbol id="icon-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-5.6-5.6A19.79 19.79 0 0 1 2 4.18a2 2 0 0 1 2-2h3.06a2 2 0 0 1 2 1.77 10.68 10.68 0 0 0 .54 2 2 2 0 0 1-.48 2l-1.34 1.34a1 1 0 0 0 .35 1.61 15.19 15.19 0 0 0 3.86 3.86 1 1 0 0 0 1.61 .35l1.34-1.34a2 2 0 0 1 2-.48 10.68 10.68 0 0 0 2 .54 2 2 0 0 1 1.77 2.06z"/>
+        </symbol>
+        <symbol id="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </symbol>
+         <symbol id="icon-share" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13" />
+        </symbol>
+        <symbol id="icon-person" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+        </symbol>
+    </svg>
+
+    <!-- Particle Background Placeholder -->
+    <div id="particles-js" style="position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: -1;"></div>
+    
+    <!-- Golden Dust Particles -->
+    <div class="dust-particles">
+        <div class="dust-particle" style="top: 20%; left: 15%;"></div>
+        <div class="dust-particle" style="top: 40%; left: 80%;"></div>
+        <div class="dust-particle" style="top: 70%; left: 25%;"></div>
+        <div class="dust-particle" style="top: 10%; left: 50%;"></div>
+        <div class="dust-particle" style="top: 85%; left: 70%;"></div>
+    </div>
+    
+    <!-- Thanh Điều Hướng (Navigation Bar) -->
+    <header class="p-4 md:p-6 shadow-2xl bg-black/50 backdrop-blur-sm sticky top-0 z-20 border-b border-neutral-800/70">
+        <div class="max-w-7xl mx-auto flex justify-center">
+            <nav class="flex space-x-6 sm:space-x-10 md:space-x-12 text-sm sm:text-base font-medium">
+                <a href="#" onclick="openModal('intro')" class="hover:text-amber-300 transition duration-300">Giới Thiệu</a>
+                <a href="#dichvu" class="hover:text-amber-300 transition duration-300">Tải Xuống</a>
+                <a href="#lienhe" class="hover:text-amber-300 transition duration-300">Liên Hệ</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Phần Hero (Giới Thiệu Lớn) -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32" style="position: relative; z-index: 1">
+        <section id="gioithieu" class="text-center fade-in">
+            <p class="text-sm uppercase tracking-[0.3em] text-gray-500 mb-4">SHARE CHỨNG CHỈ DOANH NGHIỆP</p>
+            <h2 class="text-6xl md:text-8xl font-extrabold mb-4 tracking-tighter leading-none">
+                <span class="text-white">Apple</span> 
+                <span class="text-[--lux-gold] inline-block">P12</span>
+            </h2>
+            <div class="hero-separator"></div>
+
+            <p class="text-lg md:text-xl text-gray-400 mt-8 mb-12 max-w-4xl mx-auto">
+                964.xx
+            </p>
+            
+            <!-- KHỐI DYNAMIC ISLAND -->
+            <div class="dynamic-island-container fade-in" style="transition-delay: 0.5s;">
+                <a href="#dichvu" class="dynamic-island group" aria-label="Khám phá Thư viện Tải xuống">
+                    <div class="island-content">
+                        <!-- ICON: Pulsing Dot (Trạng thái sẵn sàng) -->
+                        <span class="status-indicator mr-3"></span>
+                        
+                        <!-- TEXT: Khám Phá Ngay -->
+                        <span class="text-lg font-bold text-white tracking-wider transition-colors duration-300">
+                            KHÁM PHÁ NGAY
+                        </span>
+                        
+                        <!-- ICON: Mũi tên vàng nhỏ (Chỉ hiện khi hover) -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 text-[--lux-gold] opacity-0 group-hover:opacity-100 transition-opacity duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </div>
+                </a>
+            </div>
+            <!-- KẾT THÚC KHỐI DYNAMIC ISLAND -->
+        </section>
+
+        <!-- Phần Tải Xuống (Download Section) -->
+        <section id="dichvu" class="mt-24 md:mt-36">
+            <h3 class="text-4xl md:text-5xl font-bold mb-4 text-center fade-in tracking-tight">Thư Viện Tải Xuống</h3>
+            <p class="text-center text-gray-500 mb-12 fade-in" style="transition-delay: 0.2s;">Chọn danh mục để xem các tài nguyên độc quyền.</p>
+            
+            <!-- Nút Lọc (Filter Buttons) -->
+            <div class="flex justify-center mb-12 fade-in" style="transition-delay: 0.3s;">
+                <div class="inline-flex rounded-full border border-neutral-700 p-1 bg-neutral-800/50 shadow-inner items-center">
+                    
+                    <button onclick="filterItems(this, 'esign')" class="filter-button bg-transparent text-gray-300 hover:text-white font-semibold py-2 px-6 rounded-full text-sm transition duration-300 active group">
+                        <div class="flex items-center space-x-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[--lux-gold] group-[.active]:text-black transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            </svg>
+                            <span>eSign</span>
+                        </div>
+                    </button>
+                    <button onclick="filterItems(this, 'cert')" class="filter-button bg-transparent text-gray-300 hover:text-white font-semibold py-2 px-6 rounded-full text-sm transition duration-300 group">
+                        <div class="flex items-center space-x-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[--lux-gold] group-[.active]:text-black transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
+                                <polyline points="10 9 9 9 8 9"/>
+                            </svg>
+                            <span>Cert</span>
+                        </div>
+                    </button>
+                    <button onclick="filterItems(this, 'mods')" class="filter-button bg-transparent text-gray-300 hover:text-white font-semibold py-2 px-6 rounded-full text-sm transition duration-300 group">
+                        <div class="flex items-center space-x-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[--lux-gold] group-[.active]:text-black transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="3"/>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                            </svg>
+                            <span>Mods</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid gap-8 max-w-4xl mx-auto" id="downloads-container">
+                <!-- ============================================= -->
+                <!-- ESign items -->
+                <!-- ============================================= -->
+                
+                <div class="lux-card p-4 sm:p-6 rounded-3xl shadow-2xl fade-in" data-category="esign" 
+                     data-app-name="ESign" 
+                     data-app-version="GLOBAL TAKEOFF, INC" 
+                     data-download-url="itms-services://?action=download-manifest&url=https://applep12.vn/plist/GLOBAL-TAKEOFF" 
+                     data-icon-url="https://i.imgur.com/itdPLUr.png" 
+                     data-initial-downloads="5200" 
+                     data-rating="4.5" data-reviews="15N" data-age="10+" data-rank="#10" data-rank-category="Kinh Doanh" data-developer="ThaiSon"
+                     style="transition-delay: 0.0s;">
+                    <div class="flex items-center space-x-4 sm:space-x-6">
+                        <div class="lux-app-icon relative group">
+                            <img src="https://i.imgur.com/itdPLUr.png" alt="ESign Icon" class="w-10 h-10 object-contain app-icon-small" onerror="this.onerror=null; this.src='https://placehold.co/40x40/050505/C8AA74?text=ES'">
+                            <span class="absolute -bottom-1 -right-1 bg-[--lux-gold] text-black text-xs font-bold px-1.5 py-0.5 rounded-full border border-black/20 shadow-lg">
+                                v<span class="version-number">15</span>
+                            </span>
+                        </div>
+                        <div>
+                            <h4 class="text-xl sm:text-2xl font-bold tracking-tight app-name">ESign</h4>
+                            <p class="text-gray-400 text-sm mt-1 app-version">Phiên bản: GLOBAL TAKEOFF, INC</p>
+                            <p class="text-xs text-[--lux-gold] mt-2 font-medium download-count flex items-center">
+                                <span class="status-indicator"></span>
+                                <span class="download-text">Đã tải: 5200 lượt</span>
+                            </p>
+                        </div>
+                    </div>
+                    <!-- **** MODIFIED BUTTON **** -->
+                    <button onclick="openAppInfoModal(this.closest('.lux-card'))" class="lux-button p-3 rounded-full transition duration-300 hover:scale-105" aria-label="Thông tin & Tải Xuống">
+                        <svg class="w-6 h-6 text-black"><use href="#icon-download"></use></svg>
+                    </button>
+                </div>
+
+                <div class="lux-card p-4 sm:p-6 rounded-3xl shadow-2xl fade-in" data-category="esign"
+                     data-app-name="ESign"
+                     data-app-version="BMW Brilliance Automotive Ltd"
+                     data-download-url="itms-services://?action=download-manifest&url=https://applep12.vn/plist/BMW-Brilliance"
+                     data-icon-url="https://i.imgur.com/itdPLUr.png"
+                     data-initial-downloads="5000"
+                     data-rating="4.2" data-reviews="12K" data-age="4+" data-rank="#15" data-rank-category="Tiện Ích" data-developer="BMW Group"
+                     style="transition-delay: 0.1s;">
+                    <div class="flex items-center space-x-4 sm:space-x-6">
+                        <div class="lux-app-icon">
+                            <img src="https://i.imgur.com/itdPLUr.png" alt="ESign Icon" class="w-10 h-10 object-contain app-icon-small" onerror="this.onerror=null; this.src='https://placehold.co/40x40/050505/C8AA74?text=ES'">
+                        </div>
+                        <div>
+                            <h4 class="text-xl sm:text-2xl font-bold tracking-tight app-name">ESign</h4>
+                            <p class="text-gray-400 text-sm mt-1 app-version">Phiên bản: BMW Brilliance Automotive Ltd</p>
+                            <p class="text-xs text-[--lux-gold] mt-2 font-medium download-count flex items-center">
+                                <span class="status-indicator"></span>
+                                <span class="download-text">Đã tải: 5000 lượt</span>
+                            </p>
+                        </div>
+                    </div>
+                    <button onclick="openAppInfoModal(this.closest('.lux-card'))" class="lux-button p-3 rounded-full transition duration-300 hover:scale-105" aria-label="Thông tin & Tải Xuống">
+                        <svg class="w-6 h-6 text-black"><use href="#icon-download"></use></svg>
+                    </button>
+                </div>
+
+                 <div class="lux-card p-4 sm:p-6 rounded-3xl shadow-2xl fade-in" data-category="esign"
+                     data-app-name="ESign"
+                     data-app-version="Beijing Esensoft Co"
+                     data-download-url="itms-services://?action=download-manifest&url=https://applep12.vn/plist/Beijing-Esensoft"
+                     data-icon-url="https://i.imgur.com/itdPLUr.png"
+                     data-initial-downloads="4800"
+                      data-rating="3.9" data-reviews="8N" data-age="12+" data-rank="#25" data-rank-category="Công Cụ" data-developer="Esensoft"
+                     style="transition-delay: 0.2s;">
+                    <div class="flex items-center space-x-4 sm:space-x-6">
+                        <div class="lux-app-icon">
+                            <img src="https://i.imgur.com/itdPLUr.png" alt="ESign Icon" class="w-10 h-10 object-contain app-icon-small" onerror="this.onerror=null; this.src='https://placehold.co/40x40/050505/C8AA74?text=ES'">
+                        </div>
+                        <div>
+                            <h4 class="text-xl sm:text-2xl font-bold tracking-tight app-name">ESign</h4>
+                            <p class="text-gray-400 text-sm mt-1 app-version">Phiên bản: Beijing Esensoft Co</p>
+                            <p class="text-xs text-[--lux-gold] mt-2 font-medium download-count flex items-center">
+                                <span class="status-indicator"></span>
+                                <span class="download-text">Đã tải: 4800 lượt</span>
+                            </p>
+                        </div>
+                    </div>
+                    <button onclick="openAppInfoModal(this.closest('.lux-card'))" class="lux-button p-3 rounded-full transition duration-300 hover:scale-105" aria-label="Thông tin & Tải Xuống">
+                        <svg class="w-6 h-6 text-black"><use href="#icon-download"></use></svg>
+                    </button>
+                </div>
+                
+                <!-- ... (Thêm các thuộc tính data-* tương tự cho các thẻ .lux-card[data-category="esign"] còn lại) ... -->
+                
+                <div class="lux-card p-4 sm:p-6 rounded-3xl shadow-2xl fade-in" data-category="esign"
+                     data-app-name="ESign"
+                     data-app-version="Guangzhou Huahan Educational & Technology Co.,Ltd"
+                     data-download-url="itms-services://?action=download-manifest&url=https://applep12.vn/plist/Guangzhou-Huahan"
+                     data-icon-url="https://i.imgur.com/itdPLUr.png"
+                     data-initial-downloads="4600" 
+                     data-rating="4.0" data-reviews="5N" data-age="4+" data-rank="#30" data-rank-category="Giáo Dục" data-developer="Huahan Edu"
+                     style="transition-delay: 0.3s;">
+                     <!-- ... -->
+                     <button onclick="openAppInfoModal(this.closest('.lux-card'))" class="lux-button p-3 rounded-full transition duration-300 hover:scale-105" aria-label="Thông tin & Tải Xuống">
+                        <svg class="w-6 h-6 text-black"><use href="#icon-download"></use></svg>
+                    </button>
+                </div>
+
+                <div class="lux-card p-4 sm:p-6 rounded-3xl shadow-2xl fade-in" data-category="esign"
+                     data-app-name="ESign"
+                     data-app-version="China Railway Eryuan Engineering Group"
+                     data-download-url="itms-services://?action=download-manifest&url=https://applep12.vn/plist/China-Railway"
+                     data-icon-url="https://i.imgur.com/itdPLUr.png"
+                     data-initial-downloads="4400"
+                     data-rating="4.1" data-reviews="10N" data-age="17+" data-rank="#18" data-rank-category="Kinh Doanh" data-developer="CREEC"
+                     style="transition-delay: 0.4s;">
+                      <!-- ... -->
+                   <button onclick="openAppInfoModal(this.closest('.lux-card'))" class="lux-button p-3 rounded-full transition duration-300 hover:scale-105" aria-label="Thông tin & Tải Xuống">
+                        <svg class="w-6 h-6 text-black"><use href="#icon-download"></use></svg>
+                    </button>
+                </div>
+
+                 <div class="lux-card p-4 sm:p-6 rounded-3xl shadow-2xl fade-in" data-category="esign"
+                     data-app-name="ESign"
+                     data-app-version="10"
+                     data-download-url="#"
+                     data-icon-url="https://i.imgur.com/itdPLUr.png"
+                     data-initial-downloads="4200" 
+                     data-rating="4.3" data-reviews="9N" data-age="4+" data-rank="#22" data-rank-category="Tiện Ích" data-developer="AppleP12 Dev"
+                     style="transition-delay: 0.5s;">
+                      <!-- ... -->
+                     <button onclick="openAppInfoModal(this.closest('.lux-card'))" class="lux-button p-3 rounded-full transition duration-300 hover:scale-105" aria-label="Thông tin & Tải Xuống">
+                        <svg class="w-6 h-6 text-black"><use href="#icon-download"></use></svg>
+                    </button>
+                </div>
+                 <!-- ... (Thêm data-* và cập nhật button cho các thẻ còn lại) ... -->
+
+            </div>
+        </section>
+
+        <!-- =================================== -->
+        <!-- PHẦN MODAL GIỚI THIỆU/CHÍNH SÁCH -->
+        <!-- =================================== -->
+        <div id="policyModal" class="modal-overlay" onclick="closeModal()">
+             <div class="modal-content overflow-y-auto" onclick="event.stopPropagation()">
+                <div class="flex justify-between items-center border-b border-neutral-700/50 pb-3 mb-4 sticky top-0 bg-[--lux-mid] z-10">
+                    <h2 class="text-3xl font-extrabold text-[--lux-gold]" id="modalTitle">Chi Tiết Giải Pháp</h2>
+                    <button onclick="closeModal()" class="text-gray-400 hover:text-white transition p-2 rounded-full hover:bg-neutral-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                           <use href="#icon-close"></use>
+                        </svg>
+                    </button>
+                </div>
+                <div class="text-gray-300 space-y-6 text-sm" id="modalContent">
+                    <!-- Tab Navigation -->
+                    <div class="flex border-b border-neutral-700/50 mb-6">
+                        <button onclick="changeModalTab('intro')" class="modal-tab active px-4 py-2 text-[--lux-gold] font-medium border-b-2 border-[--lux-gold]">
+                            Giới Thiệu
+                        </button>
+                        <button onclick="changeModalTab('policy')" class="modal-tab px-4 py-2 text-gray-400 hover:text-white transition">
+                            Chính Sách & Hỗ Trợ
+                        </button>
+                    </div>
+
+                    <!-- Introduction Tab Content -->
+                    <div id="introTab" class="tab-content active">
+                        <div class="bg-[#1a1a1a] p-6 rounded-xl border border-[--lux-gold]/30 mb-6">
+                            <h3 class="text-xl font-bold text-[--lux-gold] mb-4">Tầm Nhìn Của Chúng Tôi</h3>
+                            <p class="text-gray-300 leading-relaxed">
+                                <span class="text-[--lux-gold] font-medium">Mục tiêu cốt lõi</span> của chúng tôi là tạo một nền tảng chia sẻ giá trị, nơi cung cấp miễn phí các chứng chỉ doanh nghiệp chất lượng cao kèm link tải trực tiếp. Chính sách minh bạch đảm bảo:
+                            </p>
+                            <ul class="list-disc list-inside space-y-3 mt-4 pl-4 text-gray-300">
+                                <li><span class="text-[--lux-gold] font-medium">Không thu thập</span> bất kỳ dữ liệu cá nhân nào</li>
+                                <li><span class="text-[--lux-gold] font-medium">Truy cập ngay lập tức</span> không qua đăng ký</li>
+                                <li><span class="text-[--lux-gold] font-medium">Bảo mật tuyệt đối</span> với mã hóa end-to-end</li>
+                            </ul>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="bg-[#1a1a1a] p-6 rounded-xl border border-[--lux-gold]/30">
+                                <div class="flex items-center mb-4">
+                                    <div class="bg-[--lux-gold]/10 p-2 rounded-lg mr-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[--lux-gold]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                        </svg>
+                                    </div>
+                                    <h4 class="text-lg font-bold text-white">Tốc Độ Tải Xuống Tối Đa</h4>
+                                </div>
+                                <p class="text-gray-400 text-sm">Server tốc độ cao đảm bảo tải xuống nhanh chóng chỉ với 1 click, được tối ưu hóa cho đường truyền cáp quang quốc tế.</p>
+                            </div>
+
+                            <div class="bg-[#1a1a1a] p-6 rounded-xl border border-[--lux-gold]/30">
+                                <div class="flex items-center mb-4">
+                                    <div class="bg-[--lux-gold]/10 p-2 rounded-lg mr-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[--lux-gold]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                        </svg>
+                                    </div>
+                                    <h4 class="text-lg font-bold text-white">Bảo Mật Tuyệt Đối</h4>
+                                </div>
+                                <p class="text-gray-400 text-sm">Tất cả file được quét virus và kiểm tra bảo mật bằng thuật toán mã hóa cấp quân sự trước khi upload.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Policy Tab Content (hidden by default) -->
+                    <div id="policyTab" class="tab-content hidden">
+                        <h3 class="text-xl font-bold text-white">1. Chính Sách Bảo Mật (Privacy Policy)</h3>
+                        <p class="text-gray-400">
+                            Apple P12 cam kết bảo vệ thông tin cá nhân của người dùng. Dữ liệu chữ ký số và các chứng thư liên quan được mã hóa bằng thuật toán ECC-256 bit hiện đại, đảm bảo không thể truy cập trái phép.
+                        </p>
+                        <ul class="list-disc list-inside space-y-2 pl-4 text-gray-400">
+                            <li>**Thu thập Dữ liệu:** Chỉ thu thập thông tin định danh cần thiết cho việc cấp phát chứng thư (như ID người dùng, thời gian sử dụng).</li>
+                            <li>**Bảo mật:** Toàn bộ quá trình ký số diễn ra cục bộ trên thiết bị của bạn.</li>
+                            <li>**Chia sẻ:** Không chia sẻ dữ liệu người dùng với bất kỳ bên thứ ba nào trừ khi có yêu cầu pháp lý hợp lệ.</li>
+                        </ul>
+                        
+                        <h3 class="text-xl font-bold text-white mt-8">2. Hỗ Trợ Kỹ Thuật Cao Cấp</h3>
+                        <p class="text-gray-400">
+                            Đội ngũ kỹ thuật của chúng tôi sẵn sàng hỗ trợ bạn 24/7 qua các kênh sau:
+                        </p>
+                        <ul class="list-disc list-inside space-y-2 pl-4 text-gray-400">
+                            <li>**Hotline:** <a href="tel:+84869775233" class="text-[--lux-gold] font-medium hover:underline">+84 869 775 233</a> (Ưu tiên hỗ trợ kỹ thuật cấp tốc)</li>
+                            <li>**Email:** <a href="mailto:applep12.vn@gmail.com" class="text-[--lux-gold] font-medium hover:underline">applep12.vn@gmail.com</a> (Phản hồi trong vòng 4 giờ làm việc)</li>
+                            <li>**Trách nhiệm:** Người dùng tự chịu trách nhiệm về việc quản lý khóa riêng và mật khẩu P12.</li>
+                        </ul>
+
+                        <p class="text-gray-500 italic pt-4">
+                            Lần cuối cập nhật: 22 tháng 10, 2025.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    
+    <!-- =================================== -->
+    <!-- MODAL THÔNG TIN APP (MỚI THÊM) -->
+    <!-- =================================== -->
+    <div id="appInfoModal" class="app-info-modal-overlay" onclick="closeAppInfoModal()"> <!-- Add .open class via JS -->
+        <div class="app-info-modal-content" onclick="event.stopPropagation()">
+            <button class="close-button" onclick="closeAppInfoModal()">
+                 <svg><use href="#icon-close"></use></svg>
+            </button>
+            <div class="flex items-start space-x-3 mb-4"> <!-- Reduced space -->
+                 <img id="modalAppIcon" src="" alt="App Icon" class="app-icon-large" onerror="this.onerror=null; this.src='https://placehold.co/80x80/1c1c1e/777777?text=App'">
+                <div class="flex-grow min-w-0">
+                    <h3 id="modalAppName" class="text-lg font-semibold text-white truncate leading-tight">App Name</h3> <!-- Adjusted size/leading -->
+                    <p id="modalAppVersionFull" class="text-xs text-gray-400 leading-tight">Full Version Text</p> <!-- Subtitle changed -->
+                    <div class="flex items-center justify-between mt-2"> <!-- Added margin top -->
+                         <a id="modalDownloadButton" href="#" class="download-button">Cài Đặt</a>
+                         <button class="share-button" aria-label="Chia sẻ">
+                              <svg><use href="#icon-share"></use></svg>
+                         </button>
+                    </div>
+                </div>
+            </div>
+             <!-- New App Info Details Section -->
+             <div class="app-info-details">
+                 <div>
+                      <span class="detail-value" id="modalRating">4.5</span>
+                      <span class="stars">★★★★☆</span> <!-- Example stars -->
+                      <span class="detail-label" id="modalReviews">15N XẾP HẠNG</span>
+                 </div>
+                 <div>
+                      <span class="detail-value" id="modalAge">10+</span>
+                      <span class="detail-label">TUỔI</span>
+                 </div>
+                  <div>
+                      <span class="detail-value" id="modalRank">#10</span>
+                      <span class="detail-label" id="modalRankCategory">Kinh Doanh</span>
+                 </div>
+                 <div>
+                      <span class="developer-icon"> <svg><use href="#icon-person"></use></svg> </span>
+                      <span class="detail-label" id="modalDeveloper">ThaiSon</span>
+                 </div>
+             </div>
+             <!-- Removed redundant download count -->
+        </div>
+    </div>
+
+
+    <!-- Hotline Nổi (Dành cho Mobile) -->
+    <a href="tel:+84869775233" class="floating-hotline" title="Gọi ngay Hotline Hỗ trợ">
+        <svg><use href="#icon-phone"></use></svg>
+    </a>
+    
+    <!-- Footer Liên Hệ -->
+    <footer id="lienhe" class="mt-24 border-t border-neutral-800/70 bg-black/50 p-12 md:p-16 text-center">
+        <div class="max-w-4xl mx-auto fade-in">
+            <h4 class="text-3xl font-bold mb-4 tracking-tight">Liên Hệ Độc Quyền</h4>
+            <p class="text-gray-400 mb-8">
+                Để bắt đầu hành trình kỹ thuật số của bạn hoặc yêu cầu hỗ trợ cao cấp, vui lòng liên hệ.
+            </p>
+            
+            <!-- Hotline và Email -->
+            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-8 mb-8">
+                <!-- Email -->
+                <a href="mailto:applep12.vn@gmail.com" class="text-lg md:text-xl text-[--lux-gold] font-medium hover:text-amber-300 transition duration-300 hover:underline">
+                    applep12.vn@gmail.com
+                </a>
+                
+                <!-- Hotline -->
+                <a href="tel:+84869775233" class="text-lg md:text-xl text-white font-bold transition duration-300 hover:text-[--lux-gold] flex items-center group">
+                    <svg class="h-6 w-6 mr-2 text-[--lux-gold] group-hover:text-amber-300 transition" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <use href="#icon-phone"></use>
+                    </svg>
+                    +84 869 775 233
+                </a>
+            </div>
+
+            <p class="text-xs text-gray-600 mt-12 tracking-wider">&copy; 2025 AppleP12. Mọi Quyền Được Bảo Lưu. | Designed for Excellence</p>
+        </div>
+    </footer>
+
+    <!-- Tải Particles.js và Logic Tùy chỉnh (Script.js) -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- <script src="script.js"></script>  Removed link as JS is now inline -->
+    <script>
+        // ===================================
+        // MODAL ELEMENTS
+        // ===================================
+        const policyModalElement = document.getElementById('policyModal');
+        const appInfoModalElement = document.getElementById('appInfoModal');
+        const modalAppIcon = document.getElementById('modalAppIcon');
+        const modalAppName = document.getElementById('modalAppName');
+        const modalAppVersionFull = document.getElementById('modalAppVersionFull'); // Updated ID
+        const modalDownloadButton = document.getElementById('modalDownloadButton');
+        // New elements for app details
+        const modalRating = document.getElementById('modalRating');
+        const modalReviews = document.getElementById('modalReviews');
+        const modalAge = document.getElementById('modalAge');
+        const modalRank = document.getElementById('modalRank');
+        const modalRankCategory = document.getElementById('modalRankCategory');
+        const modalDeveloper = document.getElementById('modalDeveloper');
+
+        // ===================================
+        // MODAL FUNCTIONS (APP INFO)
+        // ===================================
+        function openAppInfoModal(cardElement) {
+            if (!appInfoModalElement) return;
+            
+            const appData = cardElement.dataset;
+            
+            modalAppIcon.src = appData.iconUrl || 'https://placehold.co/64x64/1c1c1e/777777?text=App';
+            modalAppName.textContent = cardElement.querySelector('.app-name')?.textContent || 'Không có tên'; 
+            modalAppVersionFull.textContent = cardElement.querySelector('.app-version')?.textContent || 'Không có phiên bản'; // Use full text
+            modalDownloadButton.href = appData.downloadUrl || '#';
+            
+            // Populate new details - Use data attributes or placeholders
+            modalRating.textContent = appData.rating || 'N/A';
+            // Simple star display (adjust logic for partial stars if needed)
+            const ratingValue = parseFloat(appData.rating);
+            const starsContainer = modalRating.nextElementSibling; // Get the .stars span
+            if (starsContainer) {
+                 starsContainer.textContent = '★★★★★'.substring(0, Math.round(ratingValue)) + '☆☆☆☆☆'.substring(Math.round(ratingValue));
+            }
+            modalReviews.textContent = (appData.reviews || '0') + ' XẾP HẠNG';
+            modalAge.textContent = appData.age || 'N/A';
+            modalRank.textContent = appData.rank || 'N/A';
+            modalRankCategory.textContent = appData.rankCategory || 'Danh Mục';
+            modalDeveloper.textContent = appData.developer || 'N/A';
+
+
+            appInfoModalElement.classList.add('open'); // Use class to show
+            document.body.style.overflow = 'hidden'; // Prevent background scroll
+        }
+
+        function closeAppInfoModal() {
+             if (!appInfoModalElement) return;
+            appInfoModalElement.classList.remove('open'); // Use class to hide
+            // Only restore scroll if policy modal is also closed
+            if (!policyModalElement || !policyModalElement.classList.contains('open')) {
+                 document.body.style.overflow = ''; 
+            }
+        }
+
+        // ===================================
+        // MODAL FUNCTIONS (POLICY/INTRO)
+        // ===================================
+        function openModal(tabId = 'intro') {
+            if (!policyModalElement) return;
+            policyModalElement.classList.add('open');
+            document.body.style.overflow = 'hidden';
+            changeModalTab(tabId);
+        }
+
+        function closeModal() { // This closes BOTH modals now
+            if (policyModalElement) policyModalElement.classList.remove('open');
+            if (appInfoModalElement) appInfoModalElement.classList.remove('open');
+            document.body.style.overflow = ''; // Restore scroll
+        }
+        
+        // Expose functions globally for inline onclick
+        window.openAppInfoModal = openAppInfoModal;
+        window.closeAppInfoModal = closeAppInfoModal;
+        window.openModal = openModal;
+        window.closeModal = closeModal; // Overwrites previous simple closeModal
+
+        function changeModalTab(tabId) {
+             if (!policyModalElement) return;
+             // Hide all tab contents within policy modal
+             policyModalElement.querySelectorAll('.tab-content').forEach(tab => {
+                 tab.classList.add('hidden');
+                 tab.classList.remove('active');
+             });
+
+             // Show selected tab content
+             const content = policyModalElement.querySelector('#' + tabId + 'Tab');
+             if(content) {
+                 content.classList.remove('hidden');
+                 content.classList.add('active');
+             }
+
+             // Update tab buttons within policy modal
+             policyModalElement.querySelectorAll('.modal-tab').forEach(tab => {
+                 tab.classList.remove('active', 'text-[--lux-gold]', 'border-[--lux-gold]');
+                 tab.classList.add('text-gray-400', 'hover:text-white');
+             });
+
+             // Activate current tab button
+             const activeTabButton = policyModalElement.querySelector(`.modal-tab[onclick*="'${tabId}'"]`);
+             if (activeTabButton) {
+                 activeTabButton.classList.add('active', 'text-[--lux-gold]', 'border-[--lux-gold]');
+                 activeTabButton.classList.remove('text-gray-400', 'hover:text-white');
+             }
+        }
+         window.changeModalTab = changeModalTab; // Expose globally
+
+
+        // ===================================
+        // FILTERING LOGIC
+        // ===================================
+        function filterItems(clickedButton, category) {
+            const items = document.querySelectorAll('#downloads-container .lux-card');
+            const buttons = document.querySelectorAll('.filter-button');
+
+            // Reset buttons
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                // Ensure icons/text reset color if needed by removing active class styles implicitly
+            });
+
+            // Activate clicked button
+            if (clickedButton) {
+                 clickedButton.classList.add('active');
+            } else { // Fallback for initial load
+                const defaultButton = document.querySelector(`.filter-button[onclick*="'${category}'"]`);
+                if (defaultButton) defaultButton.classList.add('active');
+            }
+
+            // Filter items
+            items.forEach((item, index) => {
+                const itemCategory = item.dataset.category;
+                if (itemCategory === category) {
+                    item.style.display = 'flex'; // Use flex as defined in lux-card
+                    // Re-apply fade-in delay and class for visibility
+                    item.style.transitionDelay = `${index * 0.05}s`; 
+                    // Use setTimeout to allow display change before transition
+                    setTimeout(() => {
+                         item.classList.add('fade-in', 'visible');
+                    }, 10); // Small delay
+                } else {
+                    item.style.display = 'none';
+                    item.classList.remove('fade-in', 'visible'); 
+                    item.style.transitionDelay = '0s';
+                }
+            });
+        }
+        window.filterItems = filterItems; // Expose globally
+
+        // ===================================
+        // SCROLL FADE-IN LOGIC
+        // ===================================
+        function handleScrollFadeIn() {
+            const fadeInElements = document.querySelectorAll('.fade-in:not(.visible)'); // Only select non-visible
+            const windowHeight = window.innerHeight;
+
+            fadeInElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                // Trigger when element is 85% into view
+                if (elementTop < windowHeight * 0.85) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+
+        // ===================================
+        // PARTICLES.JS INIT
+        // ===================================
+        function initParticles() {
+            const particlesElement = document.getElementById('particles-js');
+            if (typeof particlesJS === 'undefined' || !particlesElement) {
+                console.warn("particlesJS not loaded or #particles-js not found.");
+                return;
+            }
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": { "value": 60, "density": { "enable": true, "value_area": 800 } }, // Reduced number
+                    "color": { "value": "#C8AA74" },
+                    "shape": { "type": "circle" },
+                    "opacity": { "value": 0.4, "random": true, "anim": { "enable": true, "speed": 0.5, "opacity_min": 0.1, "sync": false } }, // Slower fade
+                    "size": { "value": 2, "random": true, "anim": { "enable": true, "speed": 1, "size_min": 0.1, "sync": false } }, // Smaller max size
+                    "line_linked": { "enable": true, "distance": 150, "color": "#C8AA74", "opacity": 0.15, "width": 1 }, // More subtle lines
+                    "move": { "enable": true, "speed": 0.6, "direction": "none", "random": true, "straight": false, "out_mode": "out", "bounce": false, "attract": { "enable": false } } // Simplified move
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": false }, "resize": true }, // Click disabled
+                    "modes": { "grab": { "distance": 120, "line_linked": { "opacity": 0.5 } } } // Reduced grab distance
+                },
+                "retina_detect": true
+            });
+        }
+
+        // ===================================
+        // INITIALIZATION ON LOAD
+        // ===================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initial check for elements already in view
+            handleScrollFadeIn();
+            
+            // Add scroll listener
+            window.addEventListener('scroll', handleScrollFadeIn);
+
+             // Random download counts animation (Kept from previous version)
+            const downloadCounts = document.querySelectorAll('.download-count');
+            downloadCounts.forEach(el => {
+                const card = el.closest('.lux-card');
+                if (!card) return;
+                const initialDownloads = parseInt(card.dataset.initialDownloads || '0');
+                const span = el.querySelector('.download-text');
+                if (!span) return;
+                
+                // Set initial text correctly
+                span.textContent = `Đã tải: ${initialDownloads.toLocaleString('vi-VN')} lượt`;
+
+                function updateCount() {
+                    // Read the *current* number from the text content for continuous update
+                    let currentDownloads = parseInt(span.textContent.replace(/\D/g,'')) || initialDownloads;
+                    const increment = Math.floor(Math.random() * 5) + 1; // Increment 1-5
+                    currentDownloads += increment;
+                    span.textContent = `Đã tải: ${currentDownloads.toLocaleString('vi-VN')} lượt`;
+                    // Update the data attribute as well, if needed elsewhere
+                    card.dataset.initialDownloads = currentDownloads; 
+                }
+                // Update immediately and then set interval
+                // updateCount(); // Optional: update once immediately?
+                setInterval(updateCount, Math.random() * 4000 + 4000); // Update every 4-8 seconds
+            });
+
+            // Initialize Particles
+            initParticles(); 
+
+            // Set initial filter (eSign)
+            const firstFilterButton = document.querySelector('.filter-button');
+             if (firstFilterButton) {
+                 filterItems(firstFilterButton, 'esign');
+             }
+
+        });
+
+    </script>
+</body>
+</html>
+
